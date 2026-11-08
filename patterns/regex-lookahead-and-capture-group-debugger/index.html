@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#be123c"/>
+  <title>Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger – Free, No Upload | RegexTester</title>
+  <meta name="description" content="Debug positive/negative lookarounds and non-capturing groups against sensitive production logs 100% locally in your browser."/>
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+  <link rel="canonical" href="https://regex.othrys.be/patterns/regex-lookahead-and-capture-group-debugger/"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <style>
+    :root {
+      --primary: #be123c;
+      --primary-hover: #0d534a;
+      --bg: #f7f8f4;
+      --card-bg: #ffffff;
+      --text: #182c32;
+      --text-muted: #526173;
+      --border: #dce3db;
+      --radius: 10px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .container {
+      max-width: 820px;
+      margin: 4vh auto;
+      padding: 0 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .badge {
+      display: inline-block;
+      background: #e3efe9;
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: clamp(26px, 4.5vw, 40px);
+      line-height: 1.2;
+      margin: 0 0 14px 0;
+      color: #0d2824;
+    }
+    .subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin: 0 0 24px 0;
+    }
+    .cta-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      margin-bottom: 36px;
+    }
+    .start-button {
+      display: inline-block;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 15px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.15s ease-in-out;
+    }
+    .start-button:hover {
+      background: var(--primary-hover);
+    }
+    .guarantees {
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .fields-section {
+      margin: 28px 0;
+      text-align: left;
+    }
+    .field-pill {
+      display: inline-block;
+      background: #edf2ee;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin: 4px;
+      color: #244139;
+    }
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    h2, h3 { color: #0d2824; margin-top: 0; }
+    ol { padding-left: 20px; }
+    ol li { margin-bottom: 10px; }
+    .privacy-box {
+      background: #f0f7f4;
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .faq-item p {
+      margin: 10px 0 0 0;
+      color: var(--text-muted);
+    }
+    footer {
+      text-align: center;
+      padding: 28px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+  </style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Regex Lookahead (?=), Lookbehind (?\u003c=) & Capture Group Debugger - 100% Free & Private | RegexTester", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any modern web browser", "url": "https://regex.othrys.be/patterns/regex-lookahead-and-capture-group-debugger/", "description": "Debug positive/negative lookarounds and non-capturing groups against sensitive production logs 100% locally in your browser.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "isAccessibleForFree": true, "featureList": ["Lookaround Debugger", "Match Index & Span", "Replacement Preview", "Zero Log Upload"]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "RegexTester", "item": "https://regex.othrys.be/"}, {"@type": "ListItem", "position": 2, "name": "Patterns", "item": "https://regex.othrys.be/patterns/"}, {"@type": "ListItem", "position": 3, "name": "Regex Lookahead (?=), Lookbehind (?\u003c=) & Capture Group Debugger", "item": "https://regex.othrys.be/patterns/regex-lookahead-and-capture-group-debugger/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How does RegexTester run 'Regex Lookahead (?=), Lookbehind (?\u003c=) & Capture Group Debugger' without uploading my data?", "acceptedAnswer": {"@type": "Answer", "text": "RegexTester executes 100% locally inside your browser's JavaScript and WebAssembly memory (ECMA-262 RegExp Specification with Capture Group & AST Token Breakdown). Benchmark performance is 0.3ms real-time match highlighting with catastrophic-backtracking guard, with zero bytes transmitted to external servers."}}, {"@type": "Question", "name": "Why use RegexTester instead of cloud-based alternatives?", "acceptedAnswer": {"@type": "Answer", "text": "Log data pasted into public regex testers often contains internal IP addresses and customer emails. RegexTester removes all paywalls, watermarks, login walls, and telemetry cookies."}}, {"@type": "Question", "name": "Can I share or bookmark a pre-filled state for Regex Lookahead (?=), Lookbehind (?\u003c=) & Capture Group Debugger?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use the Shareable State Permalink (https://regex.othrys.be/?pattern=regex-lookahead-and-capture-group-debugger) to bookmark or share this exact tool preset in documentation, GitHub issues, or team runbooks."}}]}]}</script>
+</head>
+<body>
+  <div class="container">
+    <nav aria-label="Breadcrumb" style="font-size:13px;margin-bottom:16px;color:var(--text-muted);">
+      <a href="https://regex.othrys.be/" style="color:var(--primary);text-decoration:none;">RegexTester</a> &rsaquo;
+      <a href="https://regex.othrys.be/patterns/" style="color:var(--primary);text-decoration:none;">Patterns</a> &rsaquo;
+      <span>Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger</span>
+    </nav>
+    <header>
+      <span class="badge">Advanced Parsing</span>
+      <h1>Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger — 100% Client-Side & Zero Upload</h1>
+      <p class="subtitle">Debug positive/negative lookarounds and non-capturing groups against sensitive production logs 100% locally in your browser. Built on ECMA-262 RegExp Specification with Capture Group & AST Token Breakdown (0.3ms real-time match highlighting with catastrophic-backtracking guard).</p>
+    </header>
+
+    <main>
+      <div class="cta-box">
+        <a class="start-button" href="https://regex.othrys.be/?pattern=regex-lookahead-and-capture-group-debugger">⚡ Launch Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger Workspace (Pre-Filled) →</a>
+        <div class="guarantees">
+          ✓ 100% Client-Side &bull; ✓ Zero Server Upload &bull; ✓ 0.3ms real-time match highlighting with catastrophic-backtracking guard
+        </div>
+        <div class="fields-section">
+          <strong>Pre-Configured Capabilities:</strong><br/>
+          <span class="field-pill">Lookaround Debugger</span> <span class="field-pill">Match Index & Span</span> <span class="field-pill">Replacement Preview</span> <span class="field-pill">Zero Log Upload</span>
+        </div>
+      </div>
+
+      <section class="content-card">
+        <h2>How to Use Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger</h2>
+        <ol>
+          <li>Launch the pre-configured RegexTester workspace with preset 'regex-lookahead-and-capture-group-debugger'.</li>
+          <li>Configure or inspect parameters: Lookaround Debugger, Match Index & Span, Replacement Preview, Zero Log Upload.</li>
+          <li>Verify deterministic output in real time (0.3ms real-time match highlighting with catastrophic-backtracking guard).</li>
+          <li>Copy output to clipboard, download locally, or copy the Shareable State Permalink.</li>
+        </ol>
+        <div class="privacy-box">
+          <strong>🛡️ Local WASM/Client-Side Privacy:</strong> Closed-Valve Sovereignty: Log data pasted into public regex testers often contains internal IP addresses and customer emails. RegexTester runs 100% in local browser memory with 0 cookies and 0 external network requests.
+        </div>
+      </section>
+
+      <section class="content-card" aria-label="Technical Specifications and Benchmark">
+        <h2>Technical Specifications &amp; Local vs. Cloud Benchmark</h2>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <tbody>
+            <tr><th scope="row" style="text-align:left;padding:8px;border-bottom:1px solid var(--border);">Technical Standard</th><td style="padding:8px;border-bottom:1px solid var(--border);">ECMA-262 RegExp Specification with Capture Group & AST Token Breakdown</td></tr>
+            <tr><th scope="row" style="text-align:left;padding:8px;border-bottom:1px solid var(--border);">Measured Edge Benchmark</th><td style="padding:8px;border-bottom:1px solid var(--border);">0.3ms real-time match highlighting with catastrophic-backtracking guard</td></tr>
+            <tr><th scope="row" style="text-align:left;padding:8px;border-bottom:1px solid var(--border);">Shareable Preset URI</th><td style="padding:8px;border-bottom:1px solid var(--border);"><code>https://regex.othrys.be/?pattern=regex-lookahead-and-capture-group-debugger</code></td></tr>
+            <tr><th scope="row" style="text-align:left;padding:8px;border-bottom:1px solid var(--border);">Engine Standard</th><td style="padding:8px;border-bottom:1px solid var(--border);">ECMA-262 JavaScript RegExp (Flags: g, i, m, s, u, y, d)</td></tr>
+            <tr><th scope="row" style="text-align:left;padding:8px;border-bottom:1px solid var(--border);">Inspection Features</th><td style="padding:8px;border-bottom:1px solid var(--border);">Named capture groups (?<name>), lookarounds, token-by-token explanation</td></tr>
+            <tr><th scope="row" style="text-align:left;padding:8px;border-bottom:1px solid var(--border);">Code Generator</th><td style="padding:8px;border-bottom:1px solid var(--border);">Copy ready-to-run snippets for JavaScript, Python, Go, and Rust</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="content-card" aria-label="Frequently Asked Questions">
+        <h2>Frequently Asked Questions</h2>
+        <details class="faq-item"><summary><strong>How does RegexTester run 'Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger' without uploading my data?</strong></summary><p>RegexTester executes 100% locally inside your browser's JavaScript and WebAssembly memory (ECMA-262 RegExp Specification with Capture Group & AST Token Breakdown). Benchmark performance is 0.3ms real-time match highlighting with catastrophic-backtracking guard, with zero bytes transmitted to external servers.</p></details>
+        <details class="faq-item"><summary><strong>Why use RegexTester instead of cloud-based alternatives?</strong></summary><p>Log data pasted into public regex testers often contains internal IP addresses and customer emails. RegexTester removes all paywalls, watermarks, login walls, and telemetry cookies.</p></details>
+        <details class="faq-item"><summary><strong>Can I share or bookmark a pre-filled state for Regex Lookahead (?=), Lookbehind (?<=) & Capture Group Debugger?</strong></summary><p>Yes. Use the Shareable State Permalink (https://regex.othrys.be/?pattern=regex-lookahead-and-capture-group-debugger) to bookmark or share this exact tool preset in documentation, GitHub issues, or team runbooks.</p></details>
+      </section>
+    </main>
+
+    <footer>
+      <p><a href="https://regex.othrys.be/">RegexTester Home</a> &bull; <a href="https://regex.othrys.be/patterns/">All RegexTester Patterns</a> &bull; Sovereign Client-Side Utility</p><p style="font-size:12px;margin-top:6px;">Related Workflow Tools: <a href="https://jsonfix.othrys.be/" rel="noopener">JSONFix (JSON Formatter & Tree Validator)</a> &bull; <a href="https://csvtojson.othrys.be/" rel="noopener">CSVtoJSON (RFC 4180 CSV to JSON Converter)</a> &bull; <a href="https://sqlformat.othrys.be/" rel="noopener">SQLFormat (Multi-Dialect SQL Query Beautifier)</a></p>
+    </footer>
+  </div>
+</body>
+</html>
