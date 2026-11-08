@@ -1,0 +1,8 @@
+{
+  "attempts": 6,
+  "chamber": "nemotron",
+  "model": "nvidia/nemotron-4-340b-instruct",
+  "latency_ms": 12000,
+  "tests_passed": true,
+  "typecheck_passed": true
+}
