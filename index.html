@@ -65,6 +65,7 @@
     ]
   }
   </script>
+  <link rel="manifest" href="/manifest.json">
 </head>
 <body data-theme="dark">
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -266,5 +267,12 @@
 
   <aside id="othrys-cluster-mesh" aria-label="Directory and Related Workflow Tools" style="max-width:960px;margin:24px auto;padding:12px 16px;font:13px/1.5 system-ui,sans-serif;text-align:center;opacity:0.85;border-top:1px solid rgba(128,128,128,0.2);"><strong><a href="/patterns/" style="color:inherit;text-decoration:underline;">Explore All RegexTester Patterns &amp; Presets</a></strong> &bull; Related Client-Side Tools: <a href="https://jsonfix.othrys.be/" style="color:inherit;text-decoration:underline;">JSONFix (JSON Formatter & Tree Validator)</a> &bull; <a href="https://csvtojson.othrys.be/" style="color:inherit;text-decoration:underline;">CSVtoJSON (RFC 4180 CSV to JSON Converter)</a> &bull; <a href="https://sqlformat.othrys.be/" style="color:inherit;text-decoration:underline;">SQLFormat (Multi-Dialect SQL Query Beautifier)</a></aside>
 <script src="/fleet-spotlight.js" defer></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function() {});
+  });
+}
+</script>
 </body>
 </html>
