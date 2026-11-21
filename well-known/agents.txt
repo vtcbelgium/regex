@@ -1,0 +1,7 @@
+Name: Regex Tester & Visual Explainer
+URL: https://regex.othrys.be/
+Description: Interactive regex testing and visualization tool with real-time pattern matching, explanation, and debugging capabilities.
+LLMs-Txt: https://regex.othrys.be/agents.txt
+Sitemap: https://regex.othrys.be/sitemap.xml
+Protocol: public-read-only
+Privacy: zero-tracking-cookies, local-browser-execution, zero-cloud-uploads
