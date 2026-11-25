@@ -37,6 +37,31 @@ describe('Regex Tester Tool', () => {
       expect(result.success).toBe(false);
       expect(result.error).toContain('Invalid regex');
     });
+
+    it('should handle JSON formatted input', () => {
+      const jsonInput = JSON.stringify({
+        pattern: '^[a-z]+$',
+        flags: 'i',
+        testString: 'Hello'
+      });
+      const result = processInput(jsonInput);
+      expect(result.success).toBe(true);
+      expect(result.data).toContain('Match at index 0');
+    });
+
+    it('should handle JSON formatted input containing unescaped regex backslashes and render UTF-8 arrows cleanly', () => {
+      const rawJson = String.raw`{ "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", "flags": "", "testString": "user@example.com" }`;
+      const result = processInput(rawJson);
+      expect(result.success).toBe(true);
+      expect(result.data).toContain('Match at index 0: "user@example.com"');
+      expect(result.data).toContain('→');
+      expect(result.data).not.toContain('â†’');
+
+      const digitJson = String.raw`{ "pattern": "^\d+\.\d+$", "flags": "", "testString": "12.34" }`;
+      const digitResult = processInput(digitJson);
+      expect(digitResult.success).toBe(true);
+      expect(digitResult.data).toContain('Match at index 0: "12.34"');
+    });
   });
 
   describe('parsePattern', () => {
@@ -100,7 +125,25 @@ describe('Regex Tester Tool', () => {
       const preset = applyPreset('email');
       expect(preset).not.toBeNull();
       expect(preset?.pattern).toContain('@');
+      expect(preset?.pattern).toContain('\\.');
       expect(preset?.testString).toContain('user@example.com');
+    });
+
+    it('should preserve regex escapes in date, ipv4, and url presets', () => {
+      const datePreset = applyPreset('date');
+      expect(datePreset?.pattern).toBe('^\\d{4}-\\d{2}-\\d{2}$');
+      expect(testRegex(datePreset!.pattern, datePreset!.flags, '2024-01-15')).toHaveLength(1);
+      expect(testRegex(datePreset!.pattern, datePreset!.flags, 'dddd-dd-dd')).toHaveLength(0);
+
+      const ipv4Preset = applyPreset('ipv4');
+      expect(ipv4Preset?.pattern).toContain('\\d');
+      expect(ipv4Preset?.pattern).toContain('\\.');
+      expect(testRegex(ipv4Preset!.pattern, ipv4Preset!.flags, '192.168.1.1')).toHaveLength(1);
+
+      const urlPreset = applyPreset('url');
+      expect(urlPreset?.pattern).toContain('\\.');
+      expect(urlPreset?.pattern).toContain('\\s');
+      expect(testRegex(urlPreset!.pattern, urlPreset!.flags, 'https://example.com')).toHaveLength(1);
     });
 
     it('should return null for unknown preset', () => {

@@ -60,12 +60,10 @@ function handlePresetChange(): void {
   
   const preset = applyPreset(presetName);
   if (preset) {
-    const parts = [];
-    if (preset.pattern) parts.push(preset.pattern);
-    if (preset.flags) parts.push(preset.flags);
-    if (preset.testString) parts.push(preset.testString);
-    input.value = parts.join('|');
+    input.value = `${preset.pattern}|${preset.flags}|${preset.testString}`;
     select.value = '';
+    const processBtn = document.getElementById('action-process') as HTMLButtonElement | null;
+    if (processBtn) processBtn.click();
   }
 }
 
@@ -135,4 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
     presetSelect.addEventListener('change', handlePresetChange);
   }
 });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
 

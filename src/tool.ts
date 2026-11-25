@@ -28,17 +28,17 @@ export interface TokenExplanation {
 
 const PRESETS: Record<string, { pattern: string; flags: string; testString: string }> = {
   email: {
-    pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
     flags: '',
     testString: 'user@example.com\ninvalid-email\ntest.user@domain.co.uk'
   },
   ipv4: {
-    pattern: '^((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$',
+    pattern: '^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$',
     flags: '',
     testString: '192.168.1.1\n255.255.255.255\n999.999.999.999\n10.0.0.1'
   },
   url: {
-    pattern: '^https?://(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:/[^\s]*)?$',
+    pattern: '^https?://(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(?:/[^\\s]*)?$',
     flags: 'i',
     testString: 'https://example.com\nhttp://sub.domain.org/path\nftp://invalid.com\nhttps://test'
   },
@@ -48,7 +48,7 @@ const PRESETS: Record<string, { pattern: string; flags: string; testString: stri
     testString: '550e8400-e29b-41d4-a716-446655440000\ninvalid-uuid\n6ba7b810-9dad-11d1-80b4-00c04fd430c8'
   },
   date: {
-    pattern: '^\d{4}-\d{2}-\d{2}$',
+    pattern: '^\\d{4}-\\d{2}-\\d{2}$',
     flags: '',
     testString: '2024-01-15\n2023-12-31\ninvalid-date\n2024/01/15'
   },
@@ -256,7 +256,7 @@ function formatOutput(parsed: ParsedPattern, matches: MatchInfo[], testString: s
     lines.push('(no tokens recognized)');
   } else {
     for (const token of parsed.tokens) {
-      lines.push(`  ${token.token.padEnd(15)} â ${token.description} [${token.type}]`);
+      lines.push(`  ${token.token.padEnd(15)} → ${token.description} [${token.type}]`);
     }
   }
   lines.push('');
@@ -286,23 +286,47 @@ export function processInput(input: string): ToolResult {
   const warnings: string[] = [];
   
   try {
-    // Parse input format: can be just a pattern, or pattern|flags|testString
+    // Parse input format: can be JSON { pattern, flags, testString }, pattern, or pattern|flags|testString
     let pattern = '';
     let flags = '';
     let testString = '';
-    
-    const parts = input.split('|');
-    if (parts.length === 1) {
-      pattern = parts[0].trim();
-      testString = '';
-    } else if (parts.length === 2) {
-      pattern = parts[0].trim();
-      flags = parts[1].trim();
-      testString = '';
-    } else {
-      pattern = parts[0].trim();
-      flags = parts[1].trim();
-      testString = parts.slice(2).join('|');
+
+    const trimmed = input.trim();
+    let parsedFromJson = false;
+    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+      let parsedJson: unknown = null;
+      try {
+        parsedJson = JSON.parse(trimmed);
+      } catch {
+        try {
+          parsedJson = JSON.parse(trimmed.replace(/\\(?!["\\/bfnrtu])/g, '\\\\'));
+        } catch {
+          parsedJson = null;
+        }
+      }
+      if (typeof parsedJson === 'object' && parsedJson !== null && 'pattern' in parsedJson) {
+        const obj = parsedJson as { pattern?: unknown; flags?: unknown; testString?: unknown };
+        pattern = String(obj.pattern ?? '').trim();
+        flags = String(obj.flags ?? '').trim();
+        testString = String(obj.testString ?? '');
+        parsedFromJson = true;
+      }
+    }
+
+    if (!parsedFromJson && !pattern && !flags && !testString) {
+      const parts = input.split('|');
+      if (parts.length === 1) {
+        pattern = parts[0].trim();
+        testString = '';
+      } else if (parts.length === 2) {
+        pattern = parts[0].trim();
+        flags = parts[1].trim();
+        testString = '';
+      } else {
+        pattern = parts[0].trim();
+        flags = parts[1].trim();
+        testString = parts.slice(2).join('|');
+      }
     }
     
     // Validate flags

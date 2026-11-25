@@ -728,7 +728,7 @@ select#preset-select:focus {
 
 .toast-container {
   position: fixed;
-  bottom: 20px;
+  bottom: 70px;
   right: 20px;
   display: flex;
   flex-direction: column;

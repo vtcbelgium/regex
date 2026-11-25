@@ -83,7 +83,7 @@
               <polyline points="8 6 2 12 8 18"/>
             </svg>
           </span>
-          <span class="brand-main">Regex<strong>Tester & Visual Explainer</strong></span>
+          <span class="brand-main">Regex <strong>Tester & Visual Explainer</strong></span>
           <span class="sovereign-status-badge" title="No registration or cloud backend required">Sovereign</span>
         </div>
         <small class="brand-signature">powered by OTHRYS</small>
@@ -105,7 +105,7 @@
         <p class="eyebrow hero-badge"><span class="eyebrow-dot"></span><span>FREE · INSTANT · PRIVATE</span></p>
       </div>
       <h1 class="hero-title">Regex Tester & Visual Explainer</h1>
-      <p class="hero-subtitle">privacy-focused, client-side regular expression tester, match visualizer, and syntax explainer with verified pattern presets.</p>
+      <p class="hero-subtitle">Privacy-focused, client-side regular expression tester, match visualizer, and syntax explainer with verified pattern presets.</p>
     </section>
 
     <!-- CORE WORKSPACE CARD -->
@@ -117,8 +117,11 @@
         </div>
       </div>
       <div class="workspace-body">
-        <textarea id="app-input" class="app-textarea" placeholder="{   &quot;pattern&quot;: &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$&quot;,   &quot;flags&quot;: &quot;&quot;,   &quot;testString&quot;: &quot;user@example.com&quot; }" rows="8" aria-label="Primary input"></textarea>
+        <textarea id="app-input" class="app-textarea" placeholder="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|gm|user@example.com" rows="8" aria-label="Primary input"></textarea>
         <div class="workspace-actions">
+          <select id="preset-select" class="btn btn-secondary" aria-label="Load regex preset">
+            <option value="">Load Preset…</option>
+          </select>
           <button id="action-process" class="btn btn-primary" type="button">Test Regex</button>
           <button id="action-clear" class="btn btn-secondary" type="button">Clear</button>
           <button id="action-copy" class="btn btn-secondary" type="button">Copy Output</button>
@@ -270,16 +273,9 @@
 
   <aside id="othrys-cluster-mesh" aria-label="Directory and Related Workflow Tools" style="max-width:960px;margin:24px auto;padding:12px 16px;font:13px/1.5 system-ui,sans-serif;text-align:center;opacity:0.85;border-top:1px solid rgba(128,128,128,0.2);"><strong><a href="/patterns/" style="color:inherit;text-decoration:underline;">Explore All RegexTester Patterns &amp; Presets</a></strong> &bull; Related Client-Side Tools: <a href="https://jsonfix.othrys.be/" style="color:inherit;text-decoration:underline;">JSONFix (JSON Formatter & Tree Validator)</a> &bull; <a href="https://csvtojson.othrys.be/" style="color:inherit;text-decoration:underline;">CSVtoJSON (RFC 4180 CSV to JSON Converter)</a> &bull; <a href="https://sqlformat.othrys.be/" style="color:inherit;text-decoration:underline;">SQLFormat (Multi-Dialect SQL Query Beautifier)</a></aside>
 <script src="/fleet-spotlight.js" defer></script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').catch(function() {});
-  });
-}
-</script>
 
 <!-- OTHRYS Contextual Next Tool Recommendation -->
-<div class="othrys-next-recommendation" style="margin:28px auto;max-width:760px;padding:12px 18px;background:#1e293b;border:1px solid rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:system-ui,-apple-system,sans-serif;font-size:13px;">
+<div class="othrys-next-recommendation" style="margin:28px auto;max-width:760px;padding:12px 18px;background:#1e293b;border:1px solid rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:system-ui,-apple-system,sans-serif;font-size:13px;">
   <div style="display:flex;align-items:center;gap:10px;">
     <span style="font-weight:700;color:#38bdf8;text-transform:uppercase;font-size:11px;letter-spacing:0.5px;">Recommended Next Step:</span>
     <span style="color:#cbd5e1;">Repair malformed JSON payloads and strings generated from regex matches</span>
