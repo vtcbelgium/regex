@@ -146,6 +146,15 @@ describe('Regex Tester Tool', () => {
       expect(testRegex(urlPreset!.pattern, urlPreset!.flags, 'https://example.com')).toHaveLength(1);
     });
 
+    it('should match multi-line test entries for every preset via processInput', () => {
+      for (const [name, preset] of Object.entries(getPresets())) {
+        const res = processInput(`${preset.pattern}|${preset.flags}|${preset.testString}`);
+        expect(res.success, name).toBe(true);
+        expect(res.data, name).toContain('Match at index');
+        expect(res.data, name).not.toContain('(no matches found)');
+      }
+    });
+
     it('should return null for unknown preset', () => {
       const preset = applyPreset('unknown');
       expect(preset).toBeNull();

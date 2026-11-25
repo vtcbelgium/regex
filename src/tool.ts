@@ -29,32 +29,32 @@ export interface TokenExplanation {
 const PRESETS: Record<string, { pattern: string; flags: string; testString: string }> = {
   email: {
     pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
-    flags: '',
+    flags: 'gm',
     testString: 'user@example.com\ninvalid-email\ntest.user@domain.co.uk'
   },
   ipv4: {
     pattern: '^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)$',
-    flags: '',
+    flags: 'gm',
     testString: '192.168.1.1\n255.255.255.255\n999.999.999.999\n10.0.0.1'
   },
   url: {
     pattern: '^https?://(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(?:/[^\\s]*)?$',
-    flags: 'i',
+    flags: 'gim',
     testString: 'https://example.com\nhttp://sub.domain.org/path\nftp://invalid.com\nhttps://test'
   },
   uuid: {
     pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
-    flags: 'i',
+    flags: 'gim',
     testString: '550e8400-e29b-41d4-a716-446655440000\ninvalid-uuid\n6ba7b810-9dad-11d1-80b4-00c04fd430c8'
   },
   date: {
     pattern: '^\\d{4}-\\d{2}-\\d{2}$',
-    flags: '',
+    flags: 'gm',
     testString: '2024-01-15\n2023-12-31\ninvalid-date\n2024/01/15'
   },
   slug: {
     pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
-    flags: 'i',
+    flags: 'gim',
     testString: 'my-page-title\nMy-Page-Title\ninvalid slug\nanother-page-123'
   }
 };
@@ -323,9 +323,29 @@ export function processInput(input: string): ToolResult {
         flags = parts[1].trim();
         testString = '';
       } else {
-        pattern = parts[0].trim();
-        flags = parts[1].trim();
-        testString = parts.slice(2).join('|');
+        let matchedIndex = -1;
+        for (let i = 1; i <= parts.length - 2; i++) {
+          const candidateFlags = parts[i].trim();
+          if (!/^[a-z]*$/i.test(candidateFlags)) continue;
+          const candidatePattern = parts.slice(0, i).join('|').trim();
+          if (!candidatePattern) continue;
+          try {
+            new RegExp(candidatePattern);
+            matchedIndex = i;
+            break;
+          } catch {
+            // Keep searching if '|' occurred inside an alternation group
+          }
+        }
+        if (matchedIndex !== -1) {
+          pattern = parts.slice(0, matchedIndex).join('|').trim();
+          flags = parts[matchedIndex].trim();
+          testString = parts.slice(matchedIndex + 1).join('|');
+        } else {
+          pattern = parts[0].trim();
+          flags = parts[1].trim();
+          testString = parts.slice(2).join('|');
+        }
       }
     }
     
